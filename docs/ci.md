@@ -46,6 +46,13 @@ npx playwright merge-reports --reporter=html ./all-blobs
 This is why a failed lab still produces a usable merged report: the merge job runs
 with `if: always()` as long as the lab jobs were not skipped.
 
+One detail is easy to get wrong: `actions/download-artifact@v8` writes downloaded
+blobs as `report-<artifact>.zip` when several patterns match, not under a nested
+`<artifact>/` directory. Keying the copy on the file's grandparent directory
+collapses every blob onto the same filename, and the "merged" report quietly
+contains one shard. The step therefore keys on the first path component after
+`shards/` and verifies that at least one blob exists before merging.
+
 ## The version guard
 
 ```yaml

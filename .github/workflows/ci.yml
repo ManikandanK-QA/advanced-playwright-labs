@@ -141,9 +141,13 @@ jobs:
         run: |
           mkdir -p all-blobs
           while IFS= read -r file; do
-            shard="$(basename "$(dirname "$(dirname "$file")")")"
+            # download-artifact puts each artifact in shards/<artifact-name>/.
+            # Key on that first path component, not on the file's grandparent,
+            # which is always "shards" and would overwrite every blob.
+            relative="${file#shards/}"
+            shard="${relative%%/*}"
             cp "$file" "all-blobs/${shard}.zip"
-          done < <(find shards -type f -name '*.zip')
+          done < <(find shards -type f -name '*.zip' | sort)
           ls -1 all-blobs
 
       - name: Fail clearly when no shard produced a report
