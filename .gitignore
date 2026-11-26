@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Playwright output
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Baselines from a developer machine are never committed: the tracked baselines
+# are generated inside the pinned Linux image.
+tests/visual/*-snapshots/*-win32.png
+tests/visual/*-snapshots/*-darwin.png
+
+# Local environment
+.env
+.env.local
+
+# Editors and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log

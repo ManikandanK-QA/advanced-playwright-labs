@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reading feed · Playwright Labs</title>
+    <link rel="stylesheet" href="/assets/base.css" />
+    <script src="/assets/feed.js" defer></script>
+  </head>
+  <body>
+    <main class="lab">
+      <header class="lab-header">
+        <h1>Engineering feed</h1>
+        <p class="subtitle">
+          Loads <code>/api/feed</code> on start. Every state below is reachable by intercepting that
+          request.
+        </p>
+      </header>
+
+      <div class="card">
+        <div class="card-head">
+          <h2 data-testid="feed-title">Latest articles</h2>
+          <button class="btn btn--ghost" type="button" data-testid="reload">Reload</button>
+        </div>
+
+        <div class="status status--busy" data-testid="loading" role="status">
+          <span class="spinner"></span>Loading articles…
+        </div>
+
+        <div class="status status--error" data-testid="error" role="alert" hidden>
+          <span data-testid="error-message">Could not load the feed.</span>
+        </div>
+
+        <div class="stack" data-testid="articles"></div>
+
+        <div class="status status--busy" data-testid="empty" hidden>
+          No articles match this filter.
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

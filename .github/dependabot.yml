@@ -1,0 +1,23 @@
+version: 2
+updates:
+  # The Playwright dependency and the container image tag must be bumped
+  # together. CI fails when they disagree, so a Dependabot PR for this package
+  # will also need `PLAYWRIGHT_VERSION` and the image tag updated in ci.yml.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      playwright:
+        patterns:
+          - '@playwright/test'
+      typescript-tooling:
+        patterns:
+          - 'typescript*'
+          - '@types/node'
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

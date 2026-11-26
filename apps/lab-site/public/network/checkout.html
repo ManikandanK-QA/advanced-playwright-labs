@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Checkout · Playwright Labs</title>
+    <link rel="stylesheet" href="/assets/base.css" />
+    <script src="/assets/checkout.js" defer></script>
+  </head>
+  <body>
+    <main class="lab">
+      <header class="lab-header">
+        <h1>Place an order</h1>
+        <p class="subtitle">
+          Posts JSON to <code>/api/order</code>. The submit button is disabled while the request is
+          in flight, which is what the loading-state test observes.
+        </p>
+      </header>
+
+      <form class="card" data-testid="order-form" novalidate>
+        <div class="field">
+          <label for="name">Full name</label>
+          <input id="name" name="name" data-testid="name" autocomplete="off" required />
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            data-testid="email"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <div class="field">
+          <label for="quantity">Seats</label>
+          <input
+            id="quantity"
+            name="quantity"
+            type="number"
+            min="1"
+            max="20"
+            value="2"
+            data-testid="quantity"
+          />
+        </div>
+
+        <button class="btn" type="submit" data-testid="submit">Place order</button>
+
+        <div class="status status--busy" data-testid="loading" role="status" hidden>
+          <span class="spinner"></span>Submitting order…
+        </div>
+
+        <div class="status status--ok" data-testid="confirmation" role="status" hidden>
+          Order <strong data-testid="order-id"></strong> confirmed ·
+          <span data-testid="order-total"></span>
+        </div>
+
+        <div class="status status--error" data-testid="error" role="alert" hidden>
+          <span data-testid="error-message"></span>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>

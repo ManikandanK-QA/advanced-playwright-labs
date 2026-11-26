@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Performance lab · heavy</title>
+    <link rel="stylesheet" href="/assets/base.css" />
+    <script src="/assets/perf-heavy.js" defer></script>
+  </head>
+  <body>
+    <main class="lab">
+      <div class="late-banner" data-testid="late-banner" hidden>
+        <strong>Injected regression:</strong> this banner is revealed after load, shifting all
+        content below it by 120 px and blocking the main thread for 80 ms.
+      </div>
+
+      <img
+        class="hero-media"
+        src="/assets/hero.svg"
+        width="960"
+        height="260"
+        alt="Decorative performance lab artwork"
+      />
+
+      <header class="lab-header" data-testid="perf-header">
+        <h1>Performance regression lab</h1>
+        <p class="subtitle">
+          Same layout as the baseline, plus a known-bad banner insertion and a long task. The suite
+          asserts that the harness detects them.
+        </p>
+      </header>
+
+      <section class="grid-3">
+        <article class="card">
+          <p class="kpi-label">Expected CLS</p>
+          <p class="kpi-value">&gt; 0.05</p>
+        </article>
+        <article class="card">
+          <p class="kpi-label">Expected long tasks</p>
+          <p class="kpi-value">≥ 1</p>
+        </article>
+        <article class="card">
+          <p class="kpi-label">Injected after</p>
+          <p class="kpi-value">120 ms</p>
+        </article>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Why this page exists</h2>
+          <span class="card-hint">negative control</span>
+        </div>
+        <p>
+          A performance suite that has never failed is not evidence of anything. This page produces
+          a deliberate layout shift and a deliberate long task, and the test that measures it must
+          see both. If a refactor breaks the observer, this test fails.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

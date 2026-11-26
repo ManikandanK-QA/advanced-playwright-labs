@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quality overview · Playwright Labs</title>
+    <link rel="stylesheet" href="/assets/base.css" />
+  </head>
+  <body class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark">QA</span>
+        <span>Signal</span>
+      </div>
+
+      <nav class="nav-group">
+        <span class="nav-label">Workspace</span>
+        <span class="nav-item nav-item--active"><i class="nav-dot"></i>Overview</span>
+        <span class="nav-item"><i class="nav-dot"></i>Runs</span>
+        <span class="nav-item"><i class="nav-dot"></i>Suites</span>
+        <span class="nav-item"><i class="nav-dot"></i>Flaky tests</span>
+      </nav>
+
+      <nav class="nav-group">
+        <span class="nav-label">Labs</span>
+        <span class="nav-item"><i class="nav-dot"></i>Visual</span>
+        <span class="nav-item"><i class="nav-dot"></i>Network</span>
+        <span class="nav-item"><i class="nav-dot"></i>Performance</span>
+        <span class="nav-item"><i class="nav-dot"></i>Security</span>
+      </nav>
+
+      <div class="sidebar-footer">
+        Static fixture · data is fixed<br />
+        for reproducible screenshots
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <div>
+          <h1>Quality overview</h1>
+          <p class="subtitle">Release readiness · sprint 24 · all browsers</p>
+        </div>
+        <span class="pill pill--ok">All systems operational</span>
+      </header>
+
+      <section class="kpis">
+        <article class="card" data-testid="kpi-card">
+          <p class="kpi-label">Pass rate</p>
+          <p class="kpi-value">98.4%</p>
+          <p class="kpi-delta kpi-delta--up">▲ 0.6 pts vs last week</p>
+        </article>
+        <article class="card" data-testid="kpi-card">
+          <p class="kpi-label">Runs today</p>
+          <p class="kpi-value">128</p>
+          <p class="kpi-delta kpi-delta--up">▲ 14 vs yesterday</p>
+        </article>
+        <article class="card" data-testid="kpi-card">
+          <p class="kpi-label">Flaky tests</p>
+          <p class="kpi-value">3</p>
+          <p class="kpi-delta kpi-delta--up">▼ 2 vs last week</p>
+        </article>
+        <article class="card" data-testid="kpi-card">
+          <p class="kpi-label">Median duration</p>
+          <p class="kpi-value">4m 12s</p>
+          <p class="kpi-delta kpi-delta--up">▼ 18s vs last week</p>
+        </article>
+      </section>
+
+      <section class="grid-2">
+        <div class="card">
+          <div class="card-head">
+            <h2>Pass rate · last 12 weeks</h2>
+            <span class="card-hint">threshold 95%</span>
+          </div>
+          <svg
+            class="chart"
+            viewBox="0 0 640 176"
+            role="img"
+            aria-label="Pass rate trend, 91 to 99 percent over twelve weeks"
+            preserveAspectRatio="none"
+          >
+            <line x1="8" y1="68" x2="632" y2="68" stroke="#eef1f7" stroke-width="1" />
+            <line x1="8" y1="100" x2="632" y2="100" stroke="#eef1f7" stroke-width="1" />
+            <line x1="8" y1="132" x2="632" y2="132" stroke="#eef1f7" stroke-width="1" />
+            <line x1="8" y1="164" x2="632" y2="164" stroke="#dfe4ef" stroke-width="1" />
+            <path
+              d="M8,146 L65,128 L122,137 L179,110 L236,119 L293,101 L350,92 L407,101 L464,83 L521,92 L578,74 L632,83 L632,168 L8,168 Z"
+              fill="#4f46e5"
+              fill-opacity="0.08"
+            />
+            <polyline
+              points="8,146 65,128 122,137 179,110 236,119 293,101 350,92 407,101 464,83 521,92 578,74 632,83"
+              fill="none"
+              stroke="#4f46e5"
+              stroke-width="2.5"
+              stroke-linejoin="round"
+              stroke-linecap="round"
+            />
+            <circle cx="578" cy="74" r="4.5" fill="#ffffff" stroke="#4f46e5" stroke-width="2.5" />
+          </svg>
+          <div class="chart-legend">
+            <span><i class="legend-swatch legend-swatch--accent"></i>Actual</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2>Failing suites</h2>
+            <span class="pill pill--warn">2 open</span>
+          </div>
+          <div class="stack">
+            <div class="failure-row">
+              <div>
+                <p class="failure-title">checkout.spec.ts</p>
+                <p class="failure-meta">chromium · 3 failures · since 09:41</p>
+              </div>
+              <span class="pill pill--danger">blocking</span>
+            </div>
+            <div class="failure-row">
+              <div>
+                <p class="failure-title">feed.spec.ts</p>
+                <p class="failure-meta">firefox · 1 failure · since 08:12</p>
+              </div>
+              <span class="pill pill--warn">investigate</span>
+            </div>
+            <div class="failure-row">
+              <div>
+                <p class="failure-title">All other suites</p>
+                <p class="failure-meta">42 suites · 1 208 tests</p>
+              </div>
+              <span class="pill pill--ok">passing</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Recent runs</h2>
+          <span class="card-hint">last 5 of 128 today</span>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Run</th>
+              <th>Suite</th>
+              <th>Browser</th>
+              <th class="num">Duration</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>#1284</td>
+              <td>checkout</td>
+              <td>chromium</td>
+              <td class="num">42s</td>
+              <td><span class="pill pill--ok">passed</span></td>
+            </tr>
+            <tr>
+              <td>#1283</td>
+              <td>checkout</td>
+              <td>firefox</td>
+              <td class="num">51s</td>
+              <td><span class="pill pill--danger">failed</span></td>
+            </tr>
+            <tr>
+              <td>#1282</td>
+              <td>catalogue</td>
+              <td>webkit</td>
+              <td class="num">38s</td>
+              <td><span class="pill pill--ok">passed</span></td>
+            </tr>
+            <tr>
+              <td>#1281</td>
+              <td>auth</td>
+              <td>chromium</td>
+              <td class="num">29s</td>
+              <td><span class="pill pill--ok">passed</span></td>
+            </tr>
+            <tr>
+              <td>#1280</td>
+              <td>cart</td>
+              <td>firefox</td>
+              <td class="num">33s</td>
+              <td><span class="pill pill--ok">passed</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </body>
+</html>

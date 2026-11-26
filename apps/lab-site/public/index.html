@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Playwright Labs · QA portfolio</title>
+    <link rel="stylesheet" href="/assets/base.css" />
+  </head>
+  <body>
+    <main class="lab">
+      <header class="lab-header">
+        <h1>Advanced Playwright labs</h1>
+        <p class="subtitle">
+          A deterministic target application for visual, network, performance and security tests.
+        </p>
+      </header>
+
+      <div class="lab-note">
+        Every page here is served by <code>apps/lab-site/server.mjs</code>. The server sets the
+        hardening headers, cookies and API behaviour that the test suite asserts against.
+      </div>
+
+      <div class="tiles">
+        <a class="tile" href="/visual/dashboard.html">
+          <span class="tile-title">Visual regression</span>
+          <span class="tile-body">
+            Deterministic dashboard and pricing pages with fixed data, explicit image dimensions and
+            no web fonts, so screenshots are comparable.
+          </span>
+          <span class="tile-links">
+            <span class="tile-link">/visual/dashboard.html</span>
+            <span class="tile-link">/visual/pricing.html</span>
+          </span>
+        </a>
+
+        <a class="tile" href="/network/feed.html">
+          <span class="tile-title">Network simulation</span>
+          <span class="tile-body">
+            A feed that loads over fetch, with loading, empty, error and retry states, plus a
+            checkout form that posts JSON.
+          </span>
+          <span class="tile-links">
+            <span class="tile-link">/network/feed.html</span>
+            <span class="tile-link">/network/checkout.html</span>
+          </span>
+        </a>
+
+        <a class="tile" href="/performance/stable.html">
+          <span class="tile-title">Performance budgets</span>
+          <span class="tile-body">
+            One page that is clean and one page with a deliberately injected layout shift and long
+            task, measured with PerformanceObserver.
+          </span>
+          <span class="tile-links">
+            <span class="tile-link">/performance/stable.html</span>
+            <span class="tile-link">/performance/heavy.html</span>
+          </span>
+        </a>
+
+        <a class="tile" href="/security/csp-lab.html">
+          <span class="tile-title">Browser security</span>
+          <span class="tile-body">
+            CSP enforcement, cookie flags, response headers and storage hygiene, asserted from the
+            browser rather than from a written policy.
+          </span>
+          <span class="tile-links">
+            <span class="tile-link">/security/csp-lab.html</span>
+            <span class="tile-link">/security/cookies-lab.html</span>
+            <span class="tile-link">/security/storage-lab.html</span>
+          </span>
+        </a>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,173 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      update_visual_baselines:
+        description: 'Regenerate visual baselines inside the pinned Playwright image'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CI: 'true'
+  # Must match the container image below. The guard step fails the job otherwise.
+  PLAYWRIGHT_VERSION: '1.65.1'
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+
+jobs:
+  quality:
+    name: Quality gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run format:check
+
+  labs:
+    name: Lab / ${{ matrix.project }}
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container:
+      # The official image pins browser build, fonts and OS libraries, which is
+      # what makes committed visual baselines reproducible.
+      image: mcr.microsoft.com/playwright:v1.65.1-noble
+      options: --user 1001
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - visual
+          - network
+          - performance
+          - security
+          - security-firefox
+          - security-webkit
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify the image and the client agree on the Playwright version
+        run: |
+          installed="$(npx playwright --version | awk '{print $NF}')"
+          if [ "$installed" != "${PLAYWRIGHT_VERSION}" ]; then
+            echo "::error::Container image is v${PLAYWRIGHT_VERSION} but @playwright/test resolved to ${installed}. Visual baselines would drift."
+            exit 1
+          fi
+          echo "Playwright ${installed} matches the container image."
+
+      - name: Run ${{ matrix.project }}
+        run: |
+          if [ "${{ matrix.project }}" = "visual" ] && [ "${{ github.event.inputs.update_visual_baselines }}" = "true" ]; then
+            npx playwright test --project=visual --update-snapshots --reporter=blob
+          else
+            npx playwright test --project=${{ matrix.project }} --reporter=blob
+          fi
+
+      - name: Upload blob report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: blob-${{ matrix.project }}
+          path: blob-report/
+          retention-days: 7
+          if-no-files-found: warn
+
+      - name: Upload regenerated visual baselines
+        if: matrix.project == 'visual' && github.event.inputs.update_visual_baselines == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: visual-baselines
+          path: tests/visual/visual.spec.ts-snapshots/
+          retention-days: 7
+          if-no-files-found: error
+
+      - name: Upload failure artefacts
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results-${{ matrix.project }}
+          path: test-results/
+          retention-days: 7
+          if-no-files-found: ignore
+
+  report:
+    name: Merge and publish report
+    needs: labs
+    if: always() && needs.labs.result != 'skipped'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: blob-*
+          path: shards
+
+      - name: Flatten the shard reports into one directory
+        shell: bash
+        run: |
+          mkdir -p all-blobs
+          while IFS= read -r file; do
+            shard="$(basename "$(dirname "$(dirname "$file")")")"
+            cp "$file" "all-blobs/${shard}.zip"
+          done < <(find shards -type f -name '*.zip')
+          ls -1 all-blobs
+
+      - name: Fail clearly when no shard produced a report
+        shell: bash
+        run: |
+          count="$(find all-blobs -type f -name '*.zip' | wc -l)"
+          if [ "$count" -eq 0 ]; then
+            echo "::error::No blob reports were uploaded by the lab jobs."
+            exit 1
+          fi
+
+      - name: Merge reports
+        run: npx playwright merge-reports --reporter=html ./all-blobs
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Publish report to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: playwright-report

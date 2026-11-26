@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Performance lab · stable</title>
+    <link rel="stylesheet" href="/assets/base.css" />
+    <script src="/assets/perf-stable.js" defer></script>
+  </head>
+  <body>
+    <main class="lab">
+      <img
+        class="hero-media"
+        src="/assets/hero.svg"
+        width="960"
+        height="260"
+        alt="Decorative performance lab artwork"
+      />
+
+      <header class="lab-header" data-testid="perf-header">
+        <h1>Performance baseline</h1>
+        <p class="subtitle">
+          A page with no layout shift and no long task. The suite asserts every Core Web Vital here
+          stays inside its budget.
+        </p>
+      </header>
+
+      <section class="grid-3">
+        <article class="card">
+          <p class="kpi-label">LCP budget</p>
+          <p class="kpi-value">2 500 ms</p>
+        </article>
+        <article class="card">
+          <p class="kpi-label">CLS budget</p>
+          <p class="kpi-value">0.10</p>
+        </article>
+        <article class="card">
+          <p class="kpi-label">TTFB budget</p>
+          <p class="kpi-value">800 ms</p>
+        </article>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>What is measured</h2>
+          <span class="card-hint">PerformanceObserver + Navigation Timing</span>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Source</th>
+              <th>Why it matters</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>LCP</td>
+              <td>largest-contentful-paint</td>
+              <td>When the main content is actually visible</td>
+            </tr>
+            <tr>
+              <td>CLS</td>
+              <td>layout-shift</td>
+              <td>Whether content jumps while the user reads</td>
+            </tr>
+            <tr>
+              <td>TTFB</td>
+              <td>navigation timing</td>
+              <td>How fast the server starts responding</td>
+            </tr>
+            <tr>
+              <td>Long tasks</td>
+              <td>longtask</td>
+              <td>Whether the main thread blocks input</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>

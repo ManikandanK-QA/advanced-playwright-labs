@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cookies lab · Playwright Labs</title>
+    <link rel="stylesheet" href="/assets/base.css" />
+    <script src="/assets/cookies-lab.js" defer></script>
+  </head>
+  <body>
+    <main class="lab">
+      <header class="lab-header">
+        <h1>Cookie flags lab</h1>
+        <p class="subtitle">
+          Visit <code>/api/session</code> first. The server sets one HttpOnly cookie and one
+          readable cookie, so the test can prove the flag does something.
+        </p>
+      </header>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>What JavaScript can read</h2>
+          <span class="pill pill--neutral">document.cookie</span>
+        </div>
+        <pre class="sink" data-testid="document-cookie">(loading)</pre>
+      </section>
+
+      <section class="card mt-16">
+        <div class="card-head">
+          <h2>What the server sets</h2>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Cookie</th>
+              <th>Attributes</th>
+              <th>Readable in JS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>session</td>
+              <td>HttpOnly; SameSite=Strict; Path=/</td>
+              <td>no</td>
+            </tr>
+            <tr>
+              <td>theme</td>
+              <td>SameSite=Lax; Path=/</td>
+              <td>yes</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>

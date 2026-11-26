@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Storage lab · Playwright Labs</title>
+    <link rel="stylesheet" href="/assets/base.css" />
+    <script src="/assets/storage-lab.js" defer></script>
+  </head>
+  <body>
+    <main class="lab">
+      <header class="lab-header">
+        <h1>Client storage lab</h1>
+        <p class="subtitle">
+          The page stores display preferences only. The test asserts storage works and that no
+          credential-shaped value is present.
+        </p>
+      </header>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Storage contents</h2>
+          <span class="pill pill--ok">no secrets expected</span>
+        </div>
+        <pre class="sink" data-testid="storage-dump">(loading)</pre>
+      </section>
+    </main>
+  </body>
+</html>

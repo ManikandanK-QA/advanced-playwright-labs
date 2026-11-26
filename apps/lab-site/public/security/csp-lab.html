@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CSP lab · Playwright Labs</title>
+    <link rel="stylesheet" href="/assets/base.css" />
+    <!-- Blocking script: registers the violation listener before body parsing. -->
+    <script src="/assets/csp-watch.js"></script>
+  </head>
+  <body>
+    <main class="lab">
+      <header class="lab-header">
+        <h1>Content Security Policy lab</h1>
+        <p class="subtitle">
+          The page has an inline script that the policy must block, an unsafe reflection sink, and a
+          safe text sink.
+        </p>
+      </header>
+
+      <div class="lab-note">
+        Pass a payload with <code>?payload=</code>. The unsafe sink writes it with
+        <code>innerHTML</code>; the policy is the only defence against an injected handler.
+      </div>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Inline script</h2>
+          <span class="pill pill--neutral">should be blocked</span>
+        </div>
+        <p>Inline script status: <strong data-testid="inline-status">blocked</strong></p>
+      </section>
+
+      <section class="card mt-16">
+        <div class="card-head">
+          <h2>Unsafe sink · innerHTML</h2>
+        </div>
+        <div class="sink" data-testid="reflected"></div>
+      </section>
+
+      <section class="card mt-16">
+        <div class="card-head">
+          <h2>Safe sink · textContent</h2>
+        </div>
+        <div class="sink" data-testid="safe"></div>
+      </section>
+    </main>
+
+    <!-- Deliberately inline: a working CSP blocks this. -->
+    <script>
+      window.__inlineRan = true;
+      document.querySelector('[data-testid="inline-status"]').textContent = 'ran';
+    </script>
+
+    <script src="/assets/csp-lab.js"></script>
+  </body>
+</html>
